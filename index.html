@@ -1,0 +1,1594 @@
+<!doctype html>
+
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>LEGO World in Bricks</title>
+    <!-- 한글 폰트: React/Next.js 대신 일반 HTML에서 직접 불러옵니다. -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&amp;display=swap"
+      rel="stylesheet"
+    />
+    <!-- 페이지 기본 스타일 -->
+    <link href="style.css" rel="stylesheet" />
+    <!-- HERO 비주얼 보정 -->
+    <style>
+      .hero .hero-copy {
+        position: relative !important;
+        z-index: 6 !important;
+        isolation: isolate;
+      }
+
+      /* 메인 타이포 뒤 그라데이션 */
+      .hero .hero-copy::before {
+        content: '';
+        position: absolute;
+        z-index: -1;
+        pointer-events: none;
+
+        left: 50%;
+        top: 50%;
+        width: min(920px, 108%);
+        height: min(640px, 112%);
+        transform: translate(-48%, -50%);
+
+        background: radial-gradient(
+          ellipse at 38% 45%,
+          rgba(255, 255, 255, 0.96) 0%,
+          rgba(255, 255, 255, 0.9) 18%,
+          rgba(255, 255, 255, 0.74) 36%,
+          rgba(255, 255, 255, 0.48) 52%,
+          rgba(255, 255, 255, 0.24) 66%,
+          rgba(255, 255, 255, 0.1) 76%,
+          rgba(255, 255, 255, 0) 86%
+        );
+
+        filter: blur(24px);
+        border-radius: 999px;
+        opacity: 0.94;
+      }
+
+      /* 하단 보조 그라데이션 */
+      .hero .hero-copy::after {
+        content: '';
+        position: absolute;
+        z-index: -2;
+        pointer-events: none;
+
+        left: 46%;
+        top: 58%;
+        width: min(760px, 100%);
+        height: min(420px, 84%);
+        transform: translate(-46%, -50%);
+
+        background: radial-gradient(
+          ellipse at 40% 50%,
+          rgba(255, 255, 255, 0.42) 0%,
+          rgba(255, 255, 255, 0.2) 42%,
+          rgba(255, 255, 255, 0.07) 62%,
+          rgba(255, 255, 255, 0) 80%
+        );
+
+        filter: blur(26px);
+        border-radius: 999px;
+        opacity: 0.9;
+      }
+
+      .hero .hero-copy .hero-description-gradient {
+        color: #202020 !important;
+        background: none !important;
+        -webkit-background-clip: border-box !important;
+        background-clip: border-box !important;
+        -webkit-text-fill-color: #202020 !important;
+        text-shadow:
+          0 1px 0 rgba(255, 255, 255, 0.95),
+          0 2px 6px rgba(255, 255, 255, 0.6) !important;
+      }
+
+      .hero .hero-description-gradient .hero-text-blue {
+        color: #0057b8 !important;
+        -webkit-text-fill-color: #0057b8 !important;
+        font-weight: 900 !important;
+      }
+
+      .hero .hero-description-gradient .hero-text-pink {
+        color: #e9338a !important;
+        -webkit-text-fill-color: #e9338a !important;
+        font-weight: 900 !important;
+      }
+
+      .hero .hero-description-gradient .hero-text-yellow {
+        color: #d79700 !important;
+        -webkit-text-fill-color: #d79700 !important;
+        font-weight: 900 !important;
+      }
+
+      .hero .hero-description-gradient .hero-text-red {
+        color: #e30613 !important;
+        -webkit-text-fill-color: #e30613 !important;
+        font-weight: 900 !important;
+      }
+
+      @media (max-width: 760px) {
+        .hero .hero-copy::before {
+          width: 108%;
+          height: 110%;
+          transform: translate(-50%, -50%);
+          filter: blur(18px);
+          opacity: 0.92;
+        }
+
+        .hero .hero-copy::after {
+          width: 102%;
+          height: 80%;
+          transform: translate(-50%, -50%);
+          filter: blur(20px);
+          opacity: 0.84;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="lego-world">
+      <!-- 01. HEADER -->
+      <header class="site-header">
+        <a aria-label="LEGO World home" class="nav-logo" href="#home">
+          <img
+            alt="LEGO — BUILD. CREATE. IMAGINE."
+            src="images/LEGO_logo_design_final.png"
+          />
+        </a>
+        <nav aria-label="Main navigation" id="mainNav">
+          <a class="nav-brick-link nav-brick-blue" href="#home">
+            <img
+              alt=""
+              aria-hidden="true"
+              class="nav-brick-image"
+              src="images/네비게이션 버튼/네비게이션 버튼-01.png"
+            />
+            <span class="nav-brick-text">WORLD</span>
+          </a>
+          <a class="nav-brick-link nav-brick-green" href="#landmarks">
+            <img
+              alt=""
+              aria-hidden="true"
+              class="nav-brick-image"
+              src="images/네비게이션 버튼/네비게이션 버튼-02.png"
+            />
+            <span class="nav-brick-text">LANDMARKS</span>
+          </a>
+          <a class="nav-brick-link nav-brick-yellow" href="#gallery">
+            <img
+              alt=""
+              aria-hidden="true"
+              class="nav-brick-image"
+              src="images/네비게이션 버튼/네비게이션 버튼-03.png"
+            />
+            <span class="nav-brick-text">GALLERY</span>
+          </a>
+          <a class="nav-brick-link nav-brick-red" href="#about">
+            <img
+              alt=""
+              aria-hidden="true"
+              class="nav-brick-image"
+              src="images/네비게이션 버튼/네비게이션 버튼-04.png"
+            />
+            <span class="nav-brick-text">ABOUT</span>
+          </a>
+          <a class="mobile-explore" href="#map"
+            >Explore World
+            <svg aria-hidden="true" class="icon-svg" viewbox="0 0 24 24">
+              <path
+                d="M5 12h14M13 6l6 6-6 6"
+                fill="none"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2.4"
+              ></path></svg
+          ></a>
+        </nav>
+        <a class="desktop-explore" href="#map"
+          >Explore World
+          <svg aria-hidden="true" class="icon-svg" viewbox="0 0 24 24">
+            <path
+              d="M5 12h14M13 6l6 6-6 6"
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2.4"
+            ></path></svg
+        ></a>
+        <button
+          aria-label="메뉴 열기"
+          class="menu-button"
+          id="menuButton"
+          aria-controls="mainNav"
+          aria-expanded="false"
+          type="button"
+        >
+          ☰
+        </button>
+      </header>
+      <!-- 02. HERO -->
+      <section class="hero section-line" id="home">
+        <h1 class="hero-intro" id="heroIntro">
+          <span>BUILD THE WORLD</span> <span>IN BRICKS.</span>
+        </h1>
+        <iframe
+          class="hero-video hero-youtube"
+          id="heroVideo"
+          src="https://www.youtube.com/embed/gDoLMKk_pao?autoplay=1&mute=1&loop=1&playlist=gDoLMKk_pao&controls=0&rel=0&playsinline=1&disablekb=1"
+          title="LEGO Main Video"
+          frameborder="0"
+          allow="autoplay; encrypted-media"
+          tabindex="-1"
+        ></iframe>
+        <!-- 낙하 블록 -->
+        <div aria-hidden="true" class="falling-bricks">
+          <span class="falling-brick brick-01 lego-brick lego-red lego-2x2"
+            ><i></i><i></i><i></i><i></i
+          ></span>
+          <span class="falling-brick brick-02 lego-brick lego-blue lego-1x4"
+            ><i></i><i></i><i></i><i></i
+          ></span>
+          <span class="falling-brick brick-03 lego-brick lego-yellow lego-1x2"
+            ><i></i><i></i
+          ></span>
+          <span class="falling-brick brick-04 lego-brick lego-green lego-1x3"
+            ><i></i><i></i><i></i
+          ></span>
+          <span class="falling-brick brick-05 lego-brick lego-red lego-1x4"
+            ><i></i><i></i><i></i><i></i
+          ></span>
+          <span class="falling-brick brick-06 lego-brick lego-yellow lego-2x2"
+            ><i></i><i></i><i></i><i></i
+          ></span>
+          <span class="falling-brick brick-07 lego-brick lego-blue lego-1x2"
+            ><i></i><i></i
+          ></span>
+          <span class="falling-brick brick-08 lego-brick lego-green lego-1x4"
+            ><i></i><i></i><i></i><i></i
+          ></span>
+          <span class="falling-brick brick-09 lego-brick lego-red lego-1x3"
+            ><i></i><i></i><i></i
+          ></span>
+        </div>
+      </section>
+      <!-- 03. PROCESS -->
+      <section class="build section-line" id="build">
+        <div class="process-layout">
+          <!-- PROCESS 설명 -->
+          <aside class="process-copy-column">
+            <p class="eyebrow process-eyebrow">
+              <span class="process-index">02</span>
+              <span class="process-slash">/</span>
+              <span>PROCESS</span>
+            </p>
+            <div class="process-title-row">
+              <h2>BUILT BRICK<br />BY BRICK.</h2>
+              <img
+                alt=""
+                aria-hidden="true"
+                class="process-title-brick"
+                decoding="async"
+                loading="eager"
+                src="images/블록 아이콘 01.png"
+              />
+            </div>
+            <p class="process-subtitle korean-text">
+              하나의 랜드마크가 완성되기까지의 단계.<br />
+              모든 빌드는 같은 방식, 같은 언어로 쌓아 올립니다.
+            </p>
+            <div aria-label="Process legend" class="process-legend-panel">
+              <div class="process-legend-flow">
+                <div class="process-legend-item">
+                  <img
+                    alt=""
+                    aria-hidden="true"
+                    class="process-legend-icon"
+                    src="images/블록 아이콘 02.png"
+                  />
+                  <div class="process-legend-copy">
+                    <span class="process-legend-label">BASE</span>
+                    <small class="korean-text">기초를 다지는 단계</small>
+                  </div>
+                </div>
+                <div class="process-legend-item">
+                  <img
+                    alt=""
+                    aria-hidden="true"
+                    class="process-legend-icon"
+                    src="images/블록 아이콘 03.png"
+                  />
+                  <div class="process-legend-copy">
+                    <span class="process-legend-label">FOUNDATION</span>
+                    <small class="korean-text">구조를 쌓는 단계</small>
+                  </div>
+                </div>
+                <div class="process-legend-item">
+                  <img
+                    alt=""
+                    aria-hidden="true"
+                    class="process-legend-icon"
+                    src="images/블록 아이콘 04.png"
+                  />
+                  <div class="process-legend-copy">
+                    <span class="process-legend-label">STRUCTURE</span>
+                    <small class="korean-text">형태를 완성하는 단계</small>
+                  </div>
+                </div>
+                <div class="process-legend-item">
+                  <img
+                    alt=""
+                    aria-hidden="true"
+                    class="process-legend-icon"
+                    src="images/블록 아이콘 05.png"
+                  />
+                  <div class="process-legend-copy">
+                    <span class="process-legend-label">MAIN FORM</span>
+                    <small class="korean-text">디자인을 구체화하는 단계</small>
+                  </div>
+                </div>
+                <div class="process-legend-item">
+                  <img
+                    alt=""
+                    aria-hidden="true"
+                    class="process-legend-icon"
+                    src="images/블록 아이콘 06.png"
+                  />
+                  <div class="process-legend-copy">
+                    <span class="process-legend-label">DETAIL</span>
+                    <small class="korean-text">디테일을 더하는 단계</small>
+                  </div>
+                </div>
+                <div class="process-legend-item">
+                  <img
+                    alt=""
+                    aria-hidden="true"
+                    class="process-legend-icon"
+                    src="images/블록 아이콘 07.png"
+                  />
+                  <div class="process-legend-copy">
+                    <span class="process-legend-label">LANDMARK</span>
+                    <small class="korean-text">세상을 향해 완성하는 단계</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p class="process-side-note">
+              SAME BRICKS.<br />
+              BRIGHTER CITIES.<br />
+              A MORE PLAYFUL WORLD.
+            </p>
+          </aside>
+          <!-- PROCESS 카드 -->
+          <div class="steps process-card-grid">
+            <article class="step-row process-card">
+              <b class="step-number">01</b>
+              <div class="media-block white">
+                <img
+                  alt="BASE 단계"
+                  class="step-image"
+                  decoding="async"
+                  loading="eager"
+                  src="images/01.png"
+                />
+              </div>
+              <div class="step-copy">
+                <h3>BASE</h3>
+                <p class="korean-text">
+                  모든 빌드는 녹색 베이스플레이트 한 장에서 시작합니다.
+                </p>
+              </div>
+            </article>
+            <article class="step-row process-card">
+              <b class="step-number">02</b>
+              <div class="media-block white">
+                <img
+                  alt="STRUCTURE 단계"
+                  class="step-image"
+                  decoding="async"
+                  loading="eager"
+                  src="images/02.png"
+                />
+              </div>
+              <div class="step-copy">
+                <h3>STRUCTURE</h3>
+                <p class="korean-text">
+                  기둥과 벽이 층층이 쌓이며 구조의 뼈대가 올라갑니다.
+                </p>
+              </div>
+            </article>
+            <article class="step-row process-card">
+              <b class="step-number">03</b>
+              <div class="media-block white">
+                <img
+                  alt="FORM 단계"
+                  class="step-image"
+                  decoding="async"
+                  loading="eager"
+                  src="images/03.png"
+                />
+              </div>
+              <div class="step-copy">
+                <h3>FORM</h3>
+                <p class="korean-text">
+                  랜드마크 특유의 실루엣이 서서히 드러나는 순간입니다.
+                </p>
+              </div>
+            </article>
+            <article class="step-row process-card">
+              <b class="step-number">04</b>
+              <div class="media-block white">
+                <img
+                  alt="DETAILS 단계"
+                  class="step-image"
+                  decoding="async"
+                  loading="eager"
+                  src="images/04.png"
+                />
+              </div>
+              <div class="step-copy">
+                <h3>DETAILS</h3>
+                <p class="korean-text">
+                  창문과 장식, 시계탑 — 스터드 단위의 디테일이 더해집니다.
+                </p>
+              </div>
+            </article>
+            <article class="step-row process-card">
+              <b class="step-number">05</b>
+              <div class="media-block white">
+                <img
+                  alt="FINAL BUILD 단계"
+                  class="step-image"
+                  decoding="async"
+                  loading="eager"
+                  src="images/05.png"
+                />
+              </div>
+              <div class="step-copy">
+                <h3>FINAL BUILD</h3>
+                <p class="korean-text">
+                  색을 맞추고 크레인이 마지막 블록을 제자리에 올립니다.
+                </p>
+              </div>
+            </article>
+            <article class="step-row process-card">
+              <b class="step-number">06</b>
+              <div class="media-block white">
+                <img
+                  alt="COMPLETE 단계"
+                  class="step-image"
+                  decoding="async"
+                  loading="eager"
+                  src="images/06.png"
+                />
+              </div>
+              <div class="step-copy">
+                <h3>COMPLETE</h3>
+                <p class="korean-text">
+                  하나의 랜드마크가 완성되고, 세계가 한 칸 넓어집니다.
+                </p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+      <!-- 04. CITY -->
+      <section class="closer section-line">
+        <div class="closer-top">
+          <div class="media-block red">
+            <img
+              alt="LEGO Eiffel Tower landmark in Paris"
+              class="closer-image"
+              src="videos/세계여행 이미지/01.png"
+            />
+          </div>
+          <div class="closer-copy">
+            <p class="eyebrow">03 / CITY</p>
+            <h2>WELCOME TO<br />THE LEGO CITY.</h2>
+            <p class="city-description korean-text">
+              랜드마크 하나가 아니라, 그 랜드마크가 서 있는 도시 전체를 블록으로
+              짓습니다.<br />
+              거리를 걷는 사람들까지 하나의 세계관입니다.
+            </p>
+            <a class="button" href="#gallery"
+              >See Details
+              <svg aria-hidden="true" class="icon-svg" viewbox="0 0 24 24">
+                <path
+                  d="M5 12h14M13 6l6 6-6 6"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2.4"
+                ></path></svg
+            ></a>
+          </div>
+        </div>
+        <div class="city-card-showcase">
+          <article class="city-polaroid-card red">
+            <div
+              aria-hidden="true"
+              class="city-polaroid-image"
+              style="background-image: url('videos/세계여행 이미지/02.png')"
+            ></div>
+            <div class="city-polaroid-meta">
+              <div class="city-polaroid-copy">
+                <h3>LEGO COLOSSEUM&amp;STATUE OF LIBERTY</h3>
+                <p class="korean-text">
+                  로마의 역사와 뉴욕의 자유를 하나의 브릭 세계로.
+                </p>
+              </div>
+              <div aria-hidden="true" class="city-polaroid-dots">
+                <span class="city-polaroid-dot"></span
+                ><span class="city-polaroid-dot"></span>
+              </div>
+            </div>
+          </article>
+          <article class="city-polaroid-card blue">
+            <div
+              aria-hidden="true"
+              class="city-polaroid-image"
+              style="background-image: url('videos/세계여행 이미지/03.png')"
+            ></div>
+            <div class="city-polaroid-meta">
+              <div class="city-polaroid-copy">
+                <h3>LEGO EIFFEL TOWER&amp;BIG BEN</h3>
+                <p class="korean-text">
+                  파리와 런던의 아이콘을 브릭으로 잇는 유럽의 풍경.
+                </p>
+              </div>
+              <div aria-hidden="true" class="city-polaroid-dots">
+                <span class="city-polaroid-dot"></span
+                ><span class="city-polaroid-dot"></span>
+              </div>
+            </div>
+          </article>
+          <article class="city-polaroid-card green">
+            <div
+              aria-hidden="true"
+              class="city-polaroid-image"
+              style="background-image: url('videos/세계여행 이미지/05.png')"
+            ></div>
+            <div class="city-polaroid-meta">
+              <div class="city-polaroid-copy">
+                <h3>LEGO WORLD</h3>
+                <p class="korean-text">
+                  여섯 랜드마크가 한 장의 플레이트 위에서 만납니다.
+                </p>
+              </div>
+              <div aria-hidden="true" class="city-polaroid-dots">
+                <span class="city-polaroid-dot"></span
+                ><span class="city-polaroid-dot"></span>
+              </div>
+            </div>
+          </article>
+        </div>
+        <!-- CITY 타이포그래피 -->
+        <div class="city-kinetic">
+          <div class="city-kinetic-heading">
+            <p class="city-kinetic-kicker">ONE PLATE · SIX LANDMARKS</p>
+            <h2 class="city-kinetic-title">
+              <span>CONNECT THE CITIES.</span>
+              <span class="city-kinetic-outline">BUILD THE WORLD.</span>
+            </h2>
+            <p class="city-kinetic-description korean-text">
+              서로 다른 도시와 랜드마크가 하나의 브릭 세계 안에서 이어집니다.
+            </p>
+          </div>
+          <!-- 도시 이름 마키 -->
+          <div aria-label="Featured LEGO cities" class="city-marquee">
+            <div class="city-marquee-track">
+              <div class="city-marquee-group">
+                <span>PARIS</span><i>✦</i> <span>LONDON</span><i>✦</i>
+                <span>ROME</span><i>✦</i> <span>NEW YORK</span><i>✦</i>
+                <span>SEOUL</span><i>✦</i> <span>AGRA</span><i>✦</i>
+              </div>
+              <div aria-hidden="true" class="city-marquee-group">
+                <span>PARIS</span><i>✦</i> <span>LONDON</span><i>✦</i>
+                <span>ROME</span><i>✦</i> <span>NEW YORK</span><i>✦</i>
+                <span>SEOUL</span><i>✦</i> <span>AGRA</span><i>✦</i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- 05. LANDMARKS -->
+      <section class="landmarks section-line" id="landmarks">
+        <div class="landmarks-sticky">
+          <div class="landmarks-frame">
+            <iframe
+              aria-label="LEGO Colosseum landmark scene"
+              class="landmarks-background landmarks-youtube"
+              id="landmarksVideo"
+              src="https://www.youtube.com/embed/GpaEz1AL2iA?autoplay=1&mute=1&loop=1&playlist=GpaEz1AL2iA&controls=0&rel=0&playsinline=1&disablekb=1"
+              title="LEGO Colosseum Video"
+              frameborder="0"
+              allow="autoplay; encrypted-media"
+              tabindex="-1"
+            ></iframe>
+            <div aria-hidden="true" class="landmarks-overlay"></div>
+            <div class="landmarks-content">
+              <h2>
+                <span class="landmarks-title-white">BRICK BY BRICK.</span>
+                <span class="landmarks-title-yellow">THE WORLD RISES.</span>
+              </h2>
+            </div>
+          </div>
+          <!-- 상단 문 -->
+          <div class="landmarks-door landmarks-door-top">
+            <div class="landmarks-door-message">
+              <p class="landmarks-door-message-ko korean-text">
+                도시를 지나, 세계의 랜드마크로.
+              </p>
+              <p class="landmarks-door-message-en">FROM BRICKS TO LANDMARKS.</p>
+              <!-- 스크롤 안내 -->
+              <p aria-hidden="true" class="landmarks-scroll-cue">
+                <span>SCROLL TO OPEN</span>
+                <b>↓</b>
+              </p>
+            </div>
+          </div>
+          <!-- 하단 문 -->
+          <div
+            aria-hidden="true"
+            class="landmarks-door landmarks-door-bottom"
+          ></div>
+        </div>
+      </section>
+      <!-- 06. MAP -->
+      <section class="map-section section-line map-landmarks-merged" id="map">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">04 / LANDMARKS</p>
+            <h2>WHERE SHOULD<br />WE BUILD NEXT?</h2>
+          </div>
+          <p class="map-landmarks-copy korean-text">
+            여섯 개 도시, 여섯 개의 상징.<br />카드를 열면 블록이 쌓이는 조립
+            시퀀스와 완성 렌더가 함께 열립니다.
+          </p>
+        </div>
+        <div class="map-card">
+          <!-- 지도 안내 문구 -->
+          <div aria-hidden="true" class="map-interaction-guide">
+            <!-- 지도 위치 핀 -->
+            <span class="map-guide-pin"></span>
+            <div>
+              <strong>INTERACTIVE MAP</strong>
+              <small class="korean-text">PIN을 눌러 빌드를 열어보세요</small>
+            </div>
+            <span class="map-guide-arrow">›</span>
+          </div>
+          <img
+            alt="LEGO world map with landmark builds"
+            class="map-image"
+            src="images/세계지도 섹션/세계지도-위치없음.png"
+          />
+          <div aria-label="세계지도 랜드마크 핀" class="map-pin-overlay-force">
+            <button
+              aria-label="USA 빌드 모달 열기"
+              class="map-pin-bg-force map-pin-bg-force-usa js-open-build-modal"
+              data-landmark="statue"
+              style="
+                left: 23%;
+                top: 39%;
+                background-image: url('images/세계지도 섹션/좌표 아이콘/location-pin-red.png');
+              "
+              type="button"
+            >
+              <span class="map-pin-tooltip"
+                ><b>NEW YORK</b><em>STATUE OF LIBERTY</em></span
+              ><span class="map-pin-action">CLICK</span>
+            </button>
+            <button
+              aria-label="UNITED KINGDOM 빌드 모달 열기"
+              class="map-pin-bg-force map-pin-bg-force-uk js-open-build-modal"
+              data-landmark="bigben"
+              style="
+                left: 44%;
+                top: 32%;
+                background-image: url('images/세계지도 섹션/좌표 아이콘/location-pin-blue.png');
+              "
+              type="button"
+            >
+              <span class="map-pin-tooltip"><b>LONDON</b><em>BIG BEN</em></span
+              ><span class="map-pin-action">CLICK</span>
+            </button>
+            <button
+              aria-label="FRANCE 빌드 모달 열기"
+              class="map-pin-bg-force map-pin-bg-force-france js-open-build-modal"
+              data-landmark="eiffel"
+              style="
+                left: 56%;
+                top: 27%;
+                background-image: url('images/세계지도 섹션/좌표 아이콘/location-pin-pink.png');
+              "
+              type="button"
+            >
+              <span class="map-pin-tooltip"
+                ><b>PARIS</b><em>EIFFEL TOWER</em></span
+              ><span class="map-pin-action">CLICK</span>
+            </button>
+            <button
+              aria-label="ITALY 빌드 모달 열기"
+              class="map-pin-bg-force map-pin-bg-force-italy js-open-build-modal"
+              data-landmark="colosseum"
+              style="
+                left: 54%;
+                top: 52%;
+                background-image: url('images/세계지도 섹션/좌표 아이콘/location-pin-green.png');
+              "
+              type="button"
+            >
+              <span class="map-pin-tooltip"><b>ROME</b><em>COLOSSEUM</em></span
+              ><span class="map-pin-action">CLICK</span>
+            </button>
+            <button
+              aria-label="INDIA 빌드 모달 열기"
+              class="map-pin-bg-force map-pin-bg-force-india js-open-build-modal"
+              data-landmark="tajmahal"
+              style="
+                left: 73%;
+                top: 54%;
+                background-image: url('images/세계지도 섹션/좌표 아이콘/location-pin-orange.png');
+              "
+              type="button"
+            >
+              <span class="map-pin-tooltip"><b>AGRA</b><em>TAJ MAHAL</em></span
+              ><span class="map-pin-action">CLICK</span>
+            </button>
+            <button
+              aria-label="SOUTH KOREA 빌드 모달 열기"
+              class="map-pin-bg-force map-pin-bg-force-korea js-open-build-modal"
+              data-landmark="nseoul"
+              style="
+                left: 90%;
+                top: 36%;
+                background-image: url('images/세계지도 섹션/좌표 아이콘/location-pin-purple.png');
+              "
+              type="button"
+            >
+              <span class="map-pin-tooltip"
+                ><b>SEOUL</b><em>N SEOUL TOWER</em></span
+              ><span class="map-pin-action">CLICK</span>
+            </button>
+          </div>
+        </div>
+
+        <div aria-hidden="true" class="map-gallery-bridge"></div>
+        <section class="gallery section-line" id="gallery">
+          <!-- GALLERY 타이틀 -->
+          <div class="gallery-head">
+            <div>
+              <p class="eyebrow">05 / LANDMARKS</p>
+              <h2>WORLD LANDMARKS.</h2>
+              <p class="gallery-landmarks-copy korean-text">
+                여섯 개 도시, 여섯 개의 상징. 카드를 열면 블록이 쌓이는 조립
+                시퀀스와 완성 렌더가 함께 열립니다.
+              </p>
+            </div>
+          </div>
+          <div class="gallery-grid">
+            <button
+              aria-label="EIFFEL TOWER 상세 모달 열기"
+              class="gallery-tile red js-open-build-modal"
+              data-landmark="eiffel"
+              type="button"
+            >
+              <div class="gallery-media">
+                <img
+                  alt="EIFFEL TOWER LEGO landmark"
+                  class="gallery-landmark-image"
+                  decoding="async"
+                  loading="lazy"
+                  src="videos/영상 6개 대표이미지/에펠탑.png"
+                />
+                <span aria-hidden="true" class="gallery-play-button">▶</span>
+              </div>
+              <div class="gallery-tile-copy">
+                <span aria-hidden="true" class="gallery-card-flag">
+                  <svg role="presentation" viewbox="0 0 3 2">
+                    <rect fill="#0055A4" height="2" width="1" x="0"></rect>
+                    <rect fill="#FFFFFF" height="2" width="1" x="1"></rect>
+                    <rect fill="#EF4135" height="2" width="1" x="2"></rect>
+                  </svg>
+                </span>
+                <div class="gallery-card-text">
+                  <strong>EIFFEL TOWER</strong><small>PARIS FRANCE</small>
+                </div>
+                <svg
+                  aria-hidden="true"
+                  class="gallery-card-arrow"
+                  viewbox="0 0 24 24"
+                >
+                  <path
+                    d="M5 12h14M13 6l6 6-6 6"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2.2"
+                  ></path>
+                </svg>
+              </div>
+            </button>
+            <button
+              aria-label="BIG BEN 상세 모달 열기"
+              class="gallery-tile pink js-open-build-modal"
+              data-landmark="bigben"
+              type="button"
+            >
+              <div class="gallery-media">
+                <img
+                  alt="BIG BEN LEGO landmark"
+                  class="gallery-landmark-image"
+                  decoding="async"
+                  loading="lazy"
+                  src="videos/영상 6개 대표이미지/빅벤.png"
+                />
+                <span aria-hidden="true" class="gallery-play-button">▶</span>
+              </div>
+              <div class="gallery-tile-copy">
+                <span aria-hidden="true" class="gallery-card-flag">
+                  <svg role="presentation" viewbox="0 0 60 36">
+                    <rect fill="#012169" height="36" width="60"></rect>
+                    <path
+                      d="M0 0 L60 36 M60 0 L0 36"
+                      stroke="#FFFFFF"
+                      stroke-width="8"
+                    ></path>
+                    <path
+                      d="M0 0 L60 36 M60 0 L0 36"
+                      stroke="#C8102E"
+                      stroke-width="4"
+                    ></path>
+                    <path
+                      d="M30 0 V36 M0 18 H60"
+                      stroke="#FFFFFF"
+                      stroke-width="12"
+                    ></path>
+                    <path
+                      d="M30 0 V36 M0 18 H60"
+                      stroke="#C8102E"
+                      stroke-width="7"
+                    ></path>
+                  </svg>
+                </span>
+                <div class="gallery-card-text">
+                  <strong>BIG BEN</strong><small>LONDON UNITED KINGDOM</small>
+                </div>
+                <svg
+                  aria-hidden="true"
+                  class="gallery-card-arrow"
+                  viewbox="0 0 24 24"
+                >
+                  <path
+                    d="M5 12h14M13 6l6 6-6 6"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2.2"
+                  ></path>
+                </svg>
+              </div>
+            </button>
+            <button
+              aria-label="COLOSSEUM 상세 모달 열기"
+              class="gallery-tile blue js-open-build-modal"
+              data-landmark="colosseum"
+              type="button"
+            >
+              <div class="gallery-media">
+                <img
+                  alt="COLOSSEUM LEGO landmark"
+                  class="gallery-landmark-image"
+                  decoding="async"
+                  loading="lazy"
+                  src="videos/영상 6개 대표이미지/콜로세움.png"
+                />
+                <span aria-hidden="true" class="gallery-play-button">▶</span>
+              </div>
+              <div class="gallery-tile-copy">
+                <span aria-hidden="true" class="gallery-card-flag">
+                  <svg role="presentation" viewbox="0 0 3 2">
+                    <rect fill="#009246" height="2" width="1" x="0"></rect>
+                    <rect fill="#FFFFFF" height="2" width="1" x="1"></rect>
+                    <rect fill="#CE2B37" height="2" width="1" x="2"></rect>
+                  </svg>
+                </span>
+                <div class="gallery-card-text">
+                  <strong>COLOSSEUM</strong><small>ROME ITALY</small>
+                </div>
+                <svg
+                  aria-hidden="true"
+                  class="gallery-card-arrow"
+                  viewbox="0 0 24 24"
+                >
+                  <path
+                    d="M5 12h14M13 6l6 6-6 6"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2.2"
+                  ></path>
+                </svg>
+              </div>
+            </button>
+            <button
+              aria-label="STATUE OF LIBERTY 상세 모달 열기"
+              class="gallery-tile pink js-open-build-modal"
+              data-landmark="statue"
+              type="button"
+            >
+              <div class="gallery-media">
+                <img
+                  alt="STATUE OF LIBERTY LEGO landmark"
+                  class="gallery-landmark-image"
+                  decoding="async"
+                  loading="lazy"
+                  src="videos/영상 6개 대표이미지/자유의여신상.png"
+                />
+                <span aria-hidden="true" class="gallery-play-button">▶</span>
+              </div>
+              <div class="gallery-tile-copy">
+                <span aria-hidden="true" class="gallery-card-flag">
+                  <svg role="presentation" viewbox="0 0 52 32">
+                    <rect fill="#FFFFFF" height="32" width="52"></rect>
+                    <g fill="#B22234">
+                      <rect height="2.46" width="52" y="0"></rect>
+                      <rect height="2.46" width="52" y="4.92"></rect>
+                      <rect height="2.46" width="52" y="9.84"></rect>
+                      <rect height="2.46" width="52" y="14.76"></rect>
+                      <rect height="2.46" width="52" y="19.68"></rect>
+                      <rect height="2.46" width="52" y="24.60"></rect>
+                      <rect height="2.48" width="52" y="29.52"></rect>
+                    </g>
+                    <rect fill="#3C3B6E" height="17.22" width="22"></rect>
+                    <g fill="#FFFFFF">
+                      <circle cx="3" cy="3" r=".9"></circle>
+                      <circle cx="7" cy="3" r=".9"></circle>
+                      <circle cx="11" cy="3" r=".9"></circle>
+                      <circle cx="15" cy="3" r=".9"></circle>
+                      <circle cx="19" cy="3" r=".9"></circle>
+                      <circle cx="5" cy="6.5" r=".9"></circle>
+                      <circle cx="9" cy="6.5" r=".9"></circle>
+                      <circle cx="13" cy="6.5" r=".9"></circle>
+                      <circle cx="17" cy="6.5" r=".9"></circle>
+                      <circle cx="3" cy="10" r=".9"></circle>
+                      <circle cx="7" cy="10" r=".9"></circle>
+                      <circle cx="11" cy="10" r=".9"></circle>
+                      <circle cx="15" cy="10" r=".9"></circle>
+                      <circle cx="19" cy="10" r=".9"></circle>
+                      <circle cx="5" cy="13.5" r=".9"></circle>
+                      <circle cx="9" cy="13.5" r=".9"></circle>
+                      <circle cx="13" cy="13.5" r=".9"></circle>
+                      <circle cx="17" cy="13.5" r=".9"></circle>
+                    </g>
+                  </svg>
+                </span>
+                <div class="gallery-card-text">
+                  <strong>STATUE OF LIBERTY</strong><small>NEW YORK USA</small>
+                </div>
+                <svg
+                  aria-hidden="true"
+                  class="gallery-card-arrow"
+                  viewbox="0 0 24 24"
+                >
+                  <path
+                    d="M5 12h14M13 6l6 6-6 6"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2.2"
+                  ></path>
+                </svg>
+              </div>
+            </button>
+            <button
+              aria-label="N SEOUL TOWER 상세 모달 열기"
+              class="gallery-tile green js-open-build-modal"
+              data-landmark="nseoul"
+              type="button"
+            >
+              <div class="gallery-media">
+                <img
+                  alt="N SEOUL TOWER LEGO landmark"
+                  class="gallery-landmark-image"
+                  decoding="async"
+                  loading="lazy"
+                  src="videos/영상 6개 대표이미지/남산타워.png"
+                />
+                <span aria-hidden="true" class="gallery-play-button">▶</span>
+              </div>
+              <div class="gallery-tile-copy">
+                <span aria-hidden="true" class="gallery-card-flag">
+                  <svg role="presentation" viewbox="0 0 60 40">
+                    <rect fill="#FFFFFF" height="40" width="60"></rect>
+                    <path
+                      d="M30 12a8 8 0 1 1 0 16a4 4 0 1 0 0-8a4 4 0 1 1 0-8z"
+                      fill="#CD2E3A"
+                    ></path>
+                    <path
+                      d="M30 28a8 8 0 1 1 0-16a4 4 0 1 0 0 8a4 4 0 1 1 0 8z"
+                      fill="#0047A0"
+                    ></path>
+                    <g fill="#111111">
+                      <rect
+                        height="1.7"
+                        transform="rotate(-32 13.5 7.85)"
+                        width="11"
+                        x="8"
+                        y="7"
+                      ></rect>
+                      <rect
+                        height="1.7"
+                        transform="rotate(-32 13.5 10.85)"
+                        width="11"
+                        x="8"
+                        y="10"
+                      ></rect>
+                      <rect
+                        height="1.7"
+                        transform="rotate(-32 13.5 13.85)"
+                        width="11"
+                        x="8"
+                        y="13"
+                      ></rect>
+                      <rect
+                        height="1.7"
+                        transform="rotate(-32 46.5 26.85)"
+                        width="11"
+                        x="41"
+                        y="26"
+                      ></rect>
+                      <rect
+                        height="1.7"
+                        transform="rotate(-32 46.5 29.85)"
+                        width="11"
+                        x="41"
+                        y="29"
+                      ></rect>
+                      <rect
+                        height="1.7"
+                        transform="rotate(-32 46.5 32.85)"
+                        width="11"
+                        x="41"
+                        y="32"
+                      ></rect>
+                      <rect
+                        height="1.7"
+                        transform="rotate(32 46.5 7.85)"
+                        width="11"
+                        x="41"
+                        y="7"
+                      ></rect>
+                      <rect
+                        height="1.7"
+                        transform="rotate(32 43.5 10.85)"
+                        width="5"
+                        x="41"
+                        y="10"
+                      ></rect>
+                      <rect
+                        height="1.7"
+                        transform="rotate(32 49.5 10.85)"
+                        width="5"
+                        x="47"
+                        y="10"
+                      ></rect>
+                      <rect
+                        height="1.7"
+                        transform="rotate(32 46.5 13.85)"
+                        width="11"
+                        x="41"
+                        y="13"
+                      ></rect>
+                      <rect
+                        height="1.7"
+                        transform="rotate(32 10.5 26.85)"
+                        width="5"
+                        x="8"
+                        y="26"
+                      ></rect>
+                      <rect
+                        height="1.7"
+                        transform="rotate(32 16.5 26.85)"
+                        width="5"
+                        x="14"
+                        y="26"
+                      ></rect>
+                      <rect
+                        height="1.7"
+                        transform="rotate(32 13.5 29.85)"
+                        width="11"
+                        x="8"
+                        y="29"
+                      ></rect>
+                      <rect
+                        height="1.7"
+                        transform="rotate(32 10.5 32.85)"
+                        width="5"
+                        x="8"
+                        y="32"
+                      ></rect>
+                      <rect
+                        height="1.7"
+                        transform="rotate(32 16.5 32.85)"
+                        width="5"
+                        x="14"
+                        y="32"
+                      ></rect>
+                    </g>
+                  </svg>
+                </span>
+                <div class="gallery-card-text">
+                  <strong>N SEOUL TOWER</strong><small>SEOUL SOUTH KOREA</small>
+                </div>
+                <svg
+                  aria-hidden="true"
+                  class="gallery-card-arrow"
+                  viewbox="0 0 24 24"
+                >
+                  <path
+                    d="M5 12h14M13 6l6 6-6 6"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2.2"
+                  ></path>
+                </svg>
+              </div>
+            </button>
+            <button
+              aria-label="TAJ MAHAL 상세 모달 열기"
+              class="gallery-tile yellow js-open-build-modal"
+              data-landmark="tajmahal"
+              type="button"
+            >
+              <div class="gallery-media">
+                <img
+                  alt="TAJ MAHAL LEGO landmark"
+                  class="gallery-landmark-image"
+                  decoding="async"
+                  loading="lazy"
+                  src="videos/영상 6개 대표이미지/타지마할.png"
+                />
+                <span aria-hidden="true" class="gallery-play-button">▶</span>
+              </div>
+              <div class="gallery-tile-copy">
+                <span aria-hidden="true" class="gallery-card-flag">
+                  <svg role="presentation" viewbox="0 0 3 2">
+                    <rect fill="#FF9933" height=".6667" width="3" y="0"></rect>
+                    <rect
+                      fill="#FFFFFF"
+                      height=".6667"
+                      width="3"
+                      y=".6667"
+                    ></rect>
+                    <rect
+                      fill="#138808"
+                      height=".6666"
+                      width="3"
+                      y="1.3334"
+                    ></rect>
+                    <circle
+                      cx="1.5"
+                      cy="1"
+                      fill="none"
+                      r=".18"
+                      stroke="#000080"
+                      stroke-width=".055"
+                    ></circle>
+                    <circle cx="1.5" cy="1" fill="#000080" r=".035"></circle>
+                  </svg>
+                </span>
+                <div class="gallery-card-text">
+                  <strong>TAJ MAHAL</strong><small>AGRA INDIA</small>
+                </div>
+                <svg
+                  aria-hidden="true"
+                  class="gallery-card-arrow"
+                  viewbox="0 0 24 24"
+                >
+                  <path
+                    d="M5 12h14M13 6l6 6-6 6"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2.2"
+                  ></path>
+                </svg>
+              </div>
+            </button>
+          </div>
+        </section>
+      </section>
+      <!-- 07. GALLERY -->
+
+      <!-- 07-2. WORLD TRAVEL VIDEO -->
+      <section
+        aria-label="LEGO World travel film"
+        class="travel-interlude"
+        id="travelInterlude"
+      >
+        <div class="travel-interlude-stage">
+          <iframe
+            class="travel-interlude-video travel-youtube"
+            id="travelInterludeVideo"
+            src="https://www.youtube.com/embed/ZIFxbl04wbo?autoplay=1&mute=1&loop=1&playlist=ZIFxbl04wbo&controls=0&rel=0&playsinline=1&disablekb=1"
+            title="LEGO World Travel"
+            frameborder="0"
+            allow="autoplay; encrypted-media"
+            tabindex="-1"
+          ></iframe>
+          <div aria-hidden="true" class="travel-interlude-vignette"></div>
+          <!-- 상단 문 -->
+          <div aria-hidden="true" class="travel-panel travel-panel-top">
+            <span class="travel-panel-kicker">SAME BRICKS · NEW PLACES</span>
+            <strong class="travel-panel-title">READY TO BUILD</strong>
+          </div>
+          <!-- 하단 문 -->
+          <div aria-hidden="true" class="travel-panel travel-panel-bottom">
+            <strong class="travel-panel-title">THE NEXT WORLD?</strong>
+            <span class="travel-panel-kicker">SCROLL TO OPEN</span>
+          </div>
+          <!-- 영상 타이틀 -->
+          <div class="travel-interlude-copy">
+            <p class="travel-interlude-eyebrow">07 / WORLD IN MOTION</p>
+            <h2>
+              <span>SIX CITIES.</span>
+              <span>ONE JOURNEY.</span>
+            </h2>
+            <p class="travel-interlude-caption">
+              SAME BRICKS.<br />
+              A BIGGER WORLD.
+            </p>
+          </div>
+          <div aria-hidden="true" class="travel-interlude-cities">
+            <span>SEOUL</span><i>✦</i> <span>PARIS</span><i>✦</i>
+            <span>LONDON</span><i>✦</i> <span>ROME</span><i>✦</i>
+            <span>NEW YORK</span><i>✦</i>
+            <span>AGRA</span>
+          </div>
+        </div>
+      </section>
+      <!-- 08. ABOUT -->
+      <section class="about about-manifesto section-line" id="about">
+        <div class="about-manifesto-corner about-manifesto-corner-left">
+          <span>SAME</span><span>PLACES</span><span>NEW</span
+          ><span>PERSPECTIVES</span>
+        </div>
+        <div class="about-manifesto-corner about-manifesto-corner-right">
+          <span>LEGO</span><span>REDESIGN</span><span>PROJECT</span>
+        </div>
+        <div class="about-manifesto-inner">
+          <div aria-hidden="true" class="about-lego-gap about-lego-gap-red">
+            <img
+              alt=""
+              class="about-lego-object about-lego-object-red"
+              data-about-file="3D_01.png"
+              decoding="async"
+              loading="eager"
+              src="images/3D_01.png"
+            />
+          </div>
+          <div class="about-manifesto-block about-manifesto-block-intro">
+            <h2>세상은</h2>
+            <p class="about-manifesto-lead korean-text">
+              이미 완성되어 있는 것처럼<br />보이지만,
+            </p>
+            <p class="korean-text">
+              LEGO의 세계에서는<br />언제든 다시 만들 수 있습니다.
+            </p>
+          </div>
+          <div aria-hidden="true" class="about-lego-gap about-lego-gap-yellow">
+            <img
+              alt=""
+              class="about-lego-object about-lego-object-yellow"
+              data-about-file="3D_02.png"
+              decoding="async"
+              loading="eager"
+              src="images/3D_02.png"
+            />
+          </div>
+          <div class="about-manifesto-block">
+            <p class="korean-text">
+              익숙한 도시도,<br />오래된 랜드마크도,<br />우리가 알고 있던
+              풍경도
+            </p>
+            <h3
+              class="about-manifesto-highlight about-manifesto-highlight-yellow"
+            >
+              작은 브릭 하나<span>에서</span><br />다시 시작됩니다.
+            </h3>
+          </div>
+          <div aria-hidden="true" class="about-lego-gap about-lego-gap-blue">
+            <img
+              alt=""
+              class="about-lego-object about-lego-object-blue"
+              data-about-file="3D_03.png"
+              decoding="async"
+              loading="eager"
+              src="images/3D_03.png"
+            />
+          </div>
+          <div class="about-manifesto-block">
+            <p class="korean-text">
+              우리는 LEGO가<br />단순히 무언가를 조립하는 장난감이 아니라,
+            </p>
+            <h3 class="about-manifesto-highlight">
+              세상을 바라보는 방식을<br /><span class="about-manifesto-blue"
+                >다시 조립하는 브랜드</span
+              >라고
+            </h3>
+            <p class="korean-text">생각했습니다.</p>
+          </div>
+          <div aria-hidden="true" class="about-lego-gap about-lego-gap-green">
+            <img
+              alt=""
+              class="about-lego-object about-lego-object-green"
+              data-about-file="3D_04.png"
+              decoding="async"
+              loading="eager"
+              src="images/3D_04.png"
+            />
+          </div>
+          <div class="about-manifesto-block about-manifesto-block-process">
+            <p class="korean-text">
+              정해진 답보다 새로운 가능성을,<br />완성된 모습보다 만들어가는
+              과정을 즐기는 것.
+            </p>
+            <h3 class="about-manifesto-process">
+              <span class="about-process-red">상상하고,</span
+              ><span class="about-process-yellow">만들고,</span
+              ><span class="about-process-blue">다시 부수고,</span
+              ><span class="about-process-green">또 새롭게 만드는 것.</span>
+            </h3>
+            <p class="korean-text">그것이 우리가 다시 해석한 LEGO입니다.</p>
+          </div>
+          <div class="about-manifesto-finale">
+            <p class="about-manifesto-kicker">THE WORLD, REBUILT.</p>
+            <h2>
+              BUILD THE WORLD<span class="about-manifesto-your-way"
+                ><i>Y</i><i>O</i><i>U</i><i>R</i><b> </b><i>W</i><i>A</i
+                ><i>Y</i></span
+              >
+            </h2>
+            <p class="about-manifesto-turn korean-text">
+              이제,<br /><strong>당신의 차례입니다.</strong><br /><span
+                >어떤 세상을 만들고 싶나요?</span
+              >
+            </p>
+          </div>
+          <div aria-hidden="true" class="about-lego-gap about-lego-gap-stack">
+            <img
+              alt=""
+              class="about-lego-object about-lego-object-stack"
+              data-about-file="3D_05.png"
+              decoding="async"
+              loading="eager"
+              src="images/3D_05.png"
+            />
+          </div>
+          <p class="about-manifesto-next">WHAT WILL YOU BUILD NEXT?</p>
+        </div>
+        <div class="about-manifesto-bottom about-manifesto-bottom-left">
+          <span>LEGO</span><span>REDESIGN</span><span>PROJECT</span
+          ><span>2026</span>
+        </div>
+        <div class="about-manifesto-bottom about-manifesto-bottom-right">
+          <span>SAME</span><span>BRICKS</span><span>A BRIGHTER</span
+          ><span>TOMORROW</span>
+        </div>
+      </section>
+      <!-- 09. FOOTER -->
+      <footer id="contact">
+        <div class="footer-brand">
+          <div class="footer-logo">LEGO <span>World</span></div>
+          <p class="footer-tagline">
+            Same Bricks. Brighter Cities. A More Playful World.
+          </p>
+        </div>
+        <nav aria-label="Footer navigation" class="footer-links">
+          <a href="#home">WORLD</a>
+          <a href="#landmarks">LANDMARKS</a>
+          <a href="#gallery">GALLERY</a>
+          <a href="#about">ABOUT</a>
+        </nav>
+        <div class="footer-meta">
+          <p class="footer-copyright">© 2026 LEGO World Redesign Project</p>
+          <p class="footer-description">
+            Six cities, six landmarks, one plate-built world.
+          </p>
+        </div>
+        <div class="footer-note-panel">
+          <div aria-hidden="true" class="footer-chips">
+            <span class="footer-chip footer-chip-red">6 CITIES</span>
+            <span class="footer-chip footer-chip-blue">6 LANDMARKS</span>
+            <span class="footer-chip footer-chip-green">1 WORLD</span>
+          </div>
+          <p class="footer-mini-copy">
+            Built to connect familiar places through playful brick storytelling.
+          </p>
+        </div>
+      </footer>
+      <!-- 10. BUILD MODAL -->
+      <div class="build-modal-overlay" hidden="" id="buildModal">
+        <section
+          aria-labelledby="build-modal-title"
+          aria-modal="true"
+          class="build-modal-shell"
+          role="dialog"
+        >
+          <header class="build-modal-header">
+            <div aria-hidden="true" class="build-modal-window-dots">
+              <span></span><span></span><span></span>
+            </div>
+            <strong id="buildModalHeaderTitle">FRANCE / PARIS</strong>
+            <span aria-hidden="true" class="build-modal-header-line"></span>
+            <button
+              aria-label="모달 닫기"
+              class="build-modal-close"
+              id="buildModalClose"
+              type="button"
+            >
+              ×
+            </button>
+          </header>
+          <div class="build-modal-layout">
+            <section class="build-modal-left">
+              <!-- 모달 왼쪽 미디어 패널 -->
+              <div class="build-modal-video-card">
+                <!-- 빌드 영상 -->
+                <div class="build-modal-video-stage">
+                  <video
+                    class="build-modal-video"
+                    disablepictureinpicture=""
+                    id="buildModalVideo"
+                    loop=""
+                    muted=""
+                    playsinline=""
+                    poster="videos/영상 6개 대표이미지/에펠탑.png"
+                    preload="auto"
+                    src="videos/영상 6개/Eippel_Tower_4k_ver2.mp4"
+                  ></video
+                  ><iframe
+                    allow="
+                      accelerometer;
+                      autoplay;
+                      clipboard-write;
+                      encrypted-media;
+                      gyroscope;
+                      picture-in-picture;
+                      web-share;
+                    "
+                    allowfullscreen=""
+                    class="build-modal-youtube"
+                    id="buildModalYoutube"
+                    loading="lazy"
+                    title="Landmark YouTube video"
+                  ></iframe>
+                </div>
+                <!-- 빌드 정보 카드 -->
+                <div class="build-modal-stats build-modal-stats-left">
+                  <div data-stat="bricks">
+                    <span>🧱</span><small>BRICKS</small><strong>1,247</strong>
+                  </div>
+                  <div data-stat="scale">
+                    <span>📏</span><small>SCALE</small><strong>1:180</strong>
+                  </div>
+                  <div data-stat="height">
+                    <span>📐</span><small>HEIGHT</small><strong>300M</strong>
+                  </div>
+                  <div data-stat="region">
+                    <span>🌐</span><small>REGION</small><strong>EUROPE</strong>
+                  </div>
+                </div>
+                <!-- 영상 재생바 -->
+                <div class="build-modal-player">
+                  <div class="build-modal-controls">
+                    <button
+                      aria-label="영상 재생"
+                      class="build-modal-round-play"
+                      id="buildModalPlay"
+                      type="button"
+                    ></button>
+                    <div
+                      aria-label="영상 재생 위치"
+                      aria-valuemax="0"
+                      aria-valuemin="0"
+                      aria-valuenow="0"
+                      class="build-modal-progress"
+                      id="buildModalProgress"
+                      role="slider"
+                      style="--build-progress: 0%"
+                      tabindex="0"
+                    >
+                      <span></span><i aria-hidden="true"></i>
+                    </div>
+                    <strong id="buildModalTime">00:00 / 00:00</strong>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section class="build-modal-right">
+              <div class="build-modal-hero-image">
+                <img
+                  alt="LEGO 스타일 에펠탑 랜드마크 이미지"
+                  id="buildModalHeroImage"
+                  src="videos/영상 6개 대표이미지/에펠탑.png"
+                />
+                <span class="build-modal-paris-mark" id="buildModalCityMark"
+                  >PARIS</span
+                >
+                <span class="build-modal-side-note" id="buildModalSideNote"
+                  >A<br />SMALL BRICK<br />A BRIGHTER<br />TOMORROW</span
+                >
+              </div>
+              <div class="build-modal-copy">
+                <p class="build-modal-country" id="buildModalCountry">
+                  FRANCE · 프랑스
+                </p>
+                <h2 id="build-modal-title">EIFFEL TOWER</h2>
+                <p class="build-modal-ko korean-text" id="buildModalKo">
+                  에펠탑
+                </p>
+                <p
+                  class="build-modal-description korean-text"
+                  id="buildModalDescription"
+                >
+                  1889년 만국박람회를 위해 세워진 330m의 철골 타워. 1,247개의
+                  다크 레드 브릭으로 격자 구조를 한 칸 한 칸 재현하고, 두 개의
+                  전망 플랫폼을 스터드 단위로 올려 완성했습니다.
+                </p>
+                <blockquote id="buildModalQuote">
+                  “The Eiffel Tower is rebuilt brick by brick in LEGO style.”
+                </blockquote>
+              </div>
+              <div
+                class="build-modal-signature"
+                aria-label="Landmark collection"
+              >
+                <div class="build-modal-signature-line">
+                  <span>LEGO LANDMARK COLLECTION</span>
+                  <span id="buildModalCollectionIndex">01 / 06</span>
+                </div>
+                <p id="buildModalCollectionLocation">PARIS · FRANCE</p>
+              </div>
+            </section>
+          </div>
+        </section>
+      </div>
+      <button
+        aria-label="맨 위로 이동"
+        class="back-to-top"
+        id="backToTop"
+        type="button"
+      >
+        <svg aria-hidden="true" class="icon-svg" viewbox="0 0 24 24">
+          <path
+            d="M12 19V5M6 11l6-6 6 6"
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2.8"
+          ></path>
+        </svg>
+      </button>
+    </main>
+    <!-- 인터랙션 스크립트 -->
+    <script src="script.js"></script>
+  </body>
+</html>
