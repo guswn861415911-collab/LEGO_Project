@@ -1,1 +1,5 @@
-videos/
+videos/*
+!videos/세계여행 이미지/
+!videos/세계여행 이미지/**
+!videos/영상 6개 대표이미지/
+!videos/영상 6개 대표이미지/**
